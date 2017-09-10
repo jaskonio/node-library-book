@@ -1,0 +1,30 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "app # node-library-book",
+  "main": "core.js",
+  "dependencies": {
+    "async": "^2.5.0",
+    "chokidar": "^1.7.0",
+    "express": "^4.15.4",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.10",
+    "recursive-readdir": "^2.2.1",
+    "request": "^2.81.0",
+    "watch": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaskonio/node-library-book.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaskonio/node-library-book/issues"
+  },
+  "homepage": "https://github.com/jaskonio/node-library-book#readme"
+}

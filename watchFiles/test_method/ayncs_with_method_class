@@ -1,0 +1,38 @@
+const async = require('async')
+
+class TestSerieWithBind {
+  constructor () {
+    this.counter = 0
+  }
+  uno (callback){
+    this.counter +=1
+    callback(null, this.counter)
+  }
+  dos (callback){
+    this.counter +=1
+    callback(null, this.counter)
+  }
+}
+
+class MyApp {
+  run(obj){
+    async.series([
+      function(callback){
+        obj.uno(callback)
+      },
+      function(callback){
+        obj.dos(callback)
+      }
+    ],
+    function(err, results) {
+      // console.log(obj);
+      obj.counter +=1
+      results.push(obj.counter)
+      console.log(results)
+      // results is now equal to [1, 2, 3]
+    });
+  }
+}
+const test = new TestSerieWithBind();
+const myapp = new MyApp()
+myapp.run(test)
