@@ -1,4 +1,5 @@
 module.exports = {
   port : 3000,
-  db :"mongodb://localhost:/MyBooks"
+  db :"mongodb://localhost:/MyBooks",
+  pathLibrary : "/home/jonatan/Documentos/libros"
 }
