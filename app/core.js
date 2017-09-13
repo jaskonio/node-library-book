@@ -5,7 +5,7 @@ const acctions = require('./controllers/booksCore')
 
 module.exports.run = function (){
   var watcher = chokidar.watch( config.pathLibrary, {
-    ignored: /(^|[\/\\])\../,
+    ignored: '*.txt',
     persistent: true
   });
 
@@ -14,5 +14,4 @@ module.exports.run = function (){
     .on('error', error => console.log(`Watcher error: ${error}`))
     .on('unlink', acctions.unlink)
     .on('ready', () => console.log(`initial scan complete. Ready for changes. Path Watch ${config.pathLibrary}`))
-
 }

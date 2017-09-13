@@ -1,32 +1,9 @@
 
 const Book = require('../models/book');
 const path = require('path');
+const book_function = require('./book_function')
 
 
-function saveBook (objFile){
-  var promise = new Promise((resolve, reject)=>{
-    // search book
-    Book.find({"name": objFile.name}, (err, books) => {
-      if (err) return reject(err)
-      if (books.length > 0 ) return reject("Ya existe el fichero ")
-
-      // Save file
-      let book = new Book()
-      book.name = objFile.name
-      book.size = 50000
-      book.ext = objFile.ext
-      book.description = "Muy bueno"
-
-      book.save( (err, bookStored) =>{
-        if (err) reject(err)
-
-        resolve(bookStored)
-      })
-    })
-  })
-  return promise
-
-}
 module.exports.change = function (pathFile){
   console.log(`Nuevo fichero encontrado... ${pathFile}`);
   // se va a proceder a parsear el fichero
@@ -35,10 +12,23 @@ module.exports.change = function (pathFile){
   console.log(objFile);
 
   //
+  // get file dump data
+  //
+  book_function.get_info_pdf(objFile.dir + "/" +objFile.base)
+    .then(path_dump_data=>{
+      book_function.parsePdf(path_dump_data)
+        .then(data => {
+          console.log("Fichero parseado.");
+          console.log(data);
+        })
+    })
+
+
+  //
   // parsear pdf
   //
 
-  saveBook(objFile)
+  book_function.saveBook(objFile)
     .then( results =>{
       console.log(`Fichero gurdado ${results}.`);
     })
@@ -52,29 +42,11 @@ module.exports.unlink = function(pathFile){
   console.log(`File ${pathFile} has been removed`)
   var objFile = path.parse(pathFile)
 
-  removeBook(objFile)
+  book_function.removeBook(objFile)
     .then( results =>{
       console.log(`File ${pathFile} has been removed of DB`);
     })
     .catch(err => {
       return console.log(err)
     })
-}
-
-function removeBook(objFile){
-  var promise = new Promise((resolve, reject)=>{
-    // search book
-    Book.find({"name": objFile.name}, (err, books) => {
-      if (err) return reject(err)
-      if (books.length == 0 ) return reject(`El fichero no existe en la DB ${objFile.name}`)
-
-      // Save file
-
-      Book.remove({"name": objFile.name}, (err) =>{
-        if (err) return reject(err)
-        resolve()
-      })
-    })
-  })
-  return promise
 }
